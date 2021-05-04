@@ -1,8 +1,10 @@
 const btns = document.querySelectorAll(".btn");
 const body = document.querySelector("body");
+const main = document.querySelector("main");
 const container = document.querySelector(".gestures_container");
 const score = document.querySelector(".score");
 const round = document.querySelector(".round");
+
 
 
 let rock = "rock";
@@ -10,7 +12,10 @@ let paper = "paper";
 let scissors = "scissors";
 let playerScore = 0;
 let computerScore = 0;
-let roundNumber = 1;
+let roundNumber = 0;
+
+
+
 
 function computerPlay(){
 
@@ -38,40 +43,43 @@ function gameRound(a, b){
     //a is playerSelection
     //b is computerSelection
    
+    body.classList.remove("flash-win");
+    body.classList.remove("flash-lose");
+
 
         //compare the two selections
         // paper > rock
         
         if(a == paper && b == rock){
-          //  return "You win! paper beats rock.";
+
           playerScore++;
           body.classList.add("flash-win");
         }else if (b == paper && a == rock){
-            //return "You lose! paper beats rock.";
+
             computerScore++;
             body.classList.add("flash-lose");
         }
         //scissors > paper
         if(a == scissors && b == paper){
-            //return "You win! scissors beats paper.";
+ 
             playerScore++;
             body.classList.add("flash-win");
 
 
         }else if (b == scissors && a == paper){
-            //return "You lose! scissors beats paper.";
+        
             computerScore++;
             body.classList.add("flash-lose");
 
         }
         //rock > scissors
         if(a === rock && b === scissors){
-           // return("You win! rock beats scissors.");
+       
             playerScore++;
             body.classList.add("flash-win");
 
         }else if (b === rock && a === scissors){
-           // return "You lose! rock beats scissors.";
+          
             computerScore++;
             body.classList.add("flash-lose");
 
@@ -83,32 +91,39 @@ function gameRound(a, b){
             return;
         }
    
+      
 
     score.innerHTML = `${playerScore} VS ${computerScore}`;
     roundNumber++;
     round.innerHTML = `ROUND ${roundNumber}`;
 
 
-
-
-
-
 }
 
+//nextRound function initate another game
+//another round in 2s
+//setTimeout(function, milliseconds)
+//reverse animate the gestures
+//bring back the choice container
 
-let computerSelection = computerPlay();
 
+
+function gameplay(){
     btns.forEach(addEventListener('click', (e) => {
-        //add animate_container to animate the container exiting
-        container.classList.add("animate_container");
+
+        container.classList.remove("enter-animate-container");    
+
+       container.classList.add("animate_container");
+
         
+
         //retrive the chosen gesture's class
         btnPressed = e.target.classList[1];
         console.log(btnPressed);
 
         
+        //create elements for gameplay
        
-        const main = document.querySelector("main");
         const gesture = document.createElement("div");
         const btnImg = document.createElement("img");
         const gestureComputer = document.createElement("div");
@@ -128,7 +143,7 @@ let computerSelection = computerPlay();
         btnImg.setAttribute('src', `icons/${playerSelection}.svg`);
         btnImg.classList.add("gesture_img");
 
-        console.log(computerSelection);
+        let computerSelection = computerPlay();
 
         gestureComputer.classList.add("gesture-computer");
         btnImgComputer.setAttribute('src', `icons/${computerSelection}.svg`);
@@ -142,56 +157,75 @@ let computerSelection = computerPlay();
         //have won the round or not
         //increase the round number
 
-        gameRound(playerSelection, computerSelection);
+       gameRound(playerSelection, computerSelection);
+
+       main.appendChild(gesture);
+       gesture.appendChild(btnImg);
+       main.appendChild(gestureComputer);
+       gestureComputer.appendChild(btnImgComputer);
 
 
-        main.appendChild(gesture);
-        gesture.appendChild(btnImg);
-        main.appendChild(gestureComputer);
-        gestureComputer.appendChild(btnImgComputer);
-   
+     
+
+       setTimeout(() => {
+        gestureComputer.classList.add("reverse-animate-ai");
         
+    }, 1000);
+
+    setTimeout(() => {
+        main.removeChild(gestureComputer);
+
+    }, 1600);
+
+
+    setTimeout(() => {
+        gesture.classList.add("reverse-animate-p");
+    }, 1000);
+    
+    setTimeout(() => {
+        main.removeChild(gesture);
+        container.classList.add("enter-animate-container");    
+    }, 1600);
 
          //hide the choice container
-         btns.forEach(addEventListener('animationend', () => {
-            container.classList.add("hide");
-        }));
+
+
+   checkGame();
 
     }));
 
+}
+
+const wonGame = document.createElement("div");
+wonGame.classList.add("finished-game");
+const wonGameText = document.createElement("h4");
+wonGameText.classList.add("finished-title");
+main.appendChild(wonGame);
+wonGame.appendChild(wonGameText);
 
 
 
+function checkGame(){
+    if( roundNumber < 5){
+       console.log("nothing")
+    }else{
+        if (playerScore > computerScore){
+            wonGameText.innerText =  "You won! hit the refresh button or F5 to replay.";
+            main.removeChild(container);            
+        }else if (computerScore > playerScore){
+            wonGameText.innerText =  "You lost! hit the refresh button or F5 to replay.";
+            main.removeChild(container);            
 
+        }else {
+            wonGameText.innerText =  "It's a Draw! hit the refresh button or F5 to replay.";
+            main.removeChild(container);            
 
+        }
+    }
+    
+}
 
-//bring back the choice container
-//repeat
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+gameplay();
 
 
 

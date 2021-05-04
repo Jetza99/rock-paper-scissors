@@ -41,6 +41,27 @@ main{
     transform: translate(-50%, -50%);
 }
 
+
+
+.finished-game{
+    display: inline-block;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-bottom: 5%;
+}
+
+.finished-title{
+    margin: 0;
+    font-family: "Coolvetica", cursive;
+    color: #333333;
+    letter-spacing: 5px;
+    text-align: center;
+}
+
+
+
 .round{
     margin: 0;
     font-family: "Coolvetica", cursive;
@@ -119,8 +140,13 @@ input{
 .animate_container{
    animation-name: anim_container;
     animation-duration: 0.7s;
+    animation-fill-mode: forwards;
 
-    
+}
+
+.enter-animate-container{
+    animation-name: enter_anim_container;
+    animation-duration: 0.5s;
 }
 
 @keyframes anim_container {
@@ -132,6 +158,19 @@ input{
     100%{ 
         position: absolute;
         left: -50%;
+      }
+
+}
+
+@keyframes enter_anim_container {
+    0%{ 
+        position: absolute;
+        left: -50%;
+    }
+    
+    100%{ 
+        position: absolute;
+        left: 0%;
       }
 }
 
@@ -148,6 +187,18 @@ input{
     }
 }
 
+@keyframes reverseP {
+    0%{
+        position: fixed;
+        left: -130px;
+    }
+    
+    100%{ 
+        position: absolute;
+        left: -100%;
+    }
+}
+
 
 @keyframes anim_gesture_ai {
     0%{
@@ -161,6 +212,20 @@ input{
     }
 }
 
+@keyframes reverseAi {
+    0%{
+        position: fixed;
+        right: 370px;
+    }
+    
+    100%{ 
+        position: absolute;
+       right: -100%;
+       visibility: hidden;
+    }
+
+}
+
 /* chosen gestures */
 
 .gesture-div{
@@ -170,7 +235,16 @@ input{
     height: 70%;
     animation-name: anim_gesture;   
     animation-duration: 0.3s;
-    
+}
+
+.reverse-animate-p{
+    position: fixed;
+    bottom: -20px;
+    left: -110px;
+    height: 70%;
+    animation-name: reverseP;   
+    animation-duration: 0.8s;
+    animation-fill-mode: forwards;
 }
 
 .gesture-computer{
@@ -182,6 +256,17 @@ input{
     animation-duration: 0.3s;
 }
 
+
+.reverse-animate-ai{
+    position: fixed;
+    bottom: -20px;
+    right: 370px;
+    height: 70%;
+    animation-name: reverseAi;   
+    animation-duration: 0.8s;
+    animation-fill-mode: forwards;
+
+}
 
 @media (max-width: 840px) {
     .gesture-div{
